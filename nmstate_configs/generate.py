@@ -1,4 +1,5 @@
 import os
+import random
 import shutil
 import sys
 import logging
@@ -26,9 +27,9 @@ def configure_logger(debug_mode):
     )
 
 
-def delete_files():
-    for filename in os.listdir(OUTPUT_FOLDER):
-        file_path = os.path.join(OUTPUT_FOLDER, filename)
+def delete_files(folder):
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
         try:
             if os.path.isfile(file_path) or os.path.islink(file_path):
                 os.unlink(file_path)
@@ -38,18 +39,16 @@ def delete_files():
             LOG.error('Failed to delete %s. Reason: %s' % (file_path, e))
 
 
-def main():
-    delete_files()
+def generate_files(config_amount, folder, output_name, output_suffix):
+    for i in range(1, config_amount+1):
+        c_octet = random.randint(1, 254)
+        d_octet = random.randint(1, 254)
+        mac_a = hex(c_octet)[2:]
+        mac_b = hex(d_octet)[2:]
+        mac_a = f'0{mac_a}' if len(mac_a) == 1 else mac_a  # pad with 0 if needed
+        mac_b = f'0{mac_b}' if len(mac_b) == 1 else mac_b  # pad with 0 if needed
 
-    for i in range(1, CONFIGS_AMOUNT+1):
-        c_octet = i
-        d_octet = CONFIGS_AMOUNT+1-i
-
-        mac_a = f'0{c_octet}' if c_octet < 10 else c_octet  # pad with 0 if needed
-        mac_a = str(mac_a)[1:] if len(str(mac_a)) > 2 else mac_a
-
-        mac_b = f'0{d_octet}' if d_octet < 10 else d_octet  # pad with 0 if needed
-        mac_b = str(mac_b)[1:] if len(str(mac_b)) > 2 else mac_b
+        LOG.debug(f"c_octet: {c_octet} ; d_octet: {d_octet} ; mac_a: {mac_a} ; mac_b: {mac_b}")
 
         output_from_parsed_template = template.render(
             i=i,
@@ -58,10 +57,14 @@ def main():
             mac_a=mac_a,
             mac_b=mac_b,
         )
-        with open(f"{OUTPUT_FOLDER}/{OUTPUT_NAME}{i}.{OUTPUT_SUFFIX}", "w") as fh:
+        with open(f"{folder}/{output_name}{i}.{output_suffix}", "w") as fh:
             fh.write(output_from_parsed_template)
-            LOG.debug(f"Done writing {OUTPUT_FOLDER}/{OUTPUT_NAME}{i}.{OUTPUT_SUFFIX}")
+            LOG.debug(f"Done writing {folder}/{output_name}{i}.{output_suffix}")
 
+
+def main():
+    delete_files(OUTPUT_FOLDER)
+    generate_files(CONFIGS_AMOUNT, OUTPUT_FOLDER, OUTPUT_NAME, OUTPUT_SUFFIX)
     LOG.info(f"Created {CONFIGS_AMOUNT} NMStateConfig files at {OUTPUT_FOLDER}")
 
 

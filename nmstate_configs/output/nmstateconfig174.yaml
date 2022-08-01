@@ -11,39 +11,39 @@ spec:
       - name: eth0
         type: ethernet
         state: up
-        mac-address: 02:00:00:80:74:77
+        mac-address: 02:00:00:80:16:f6
         ipv4:
           enabled: true
           address:
-            - ip: 192.168.174.77
-              prefix-length: 24
+            - ip: 172.16.22.246
+              prefix-length: 16
           dhcp: false
       - name: eth1
         type: ethernet
         state: up
-        mac-address: 02:00:00:80:77:74
+        mac-address: 02:00:00:80:f6:16
         ipv4:
           enabled: true
           address:
-            - ip: 192.168.77.174
-              prefix-length: 24
+            - ip: 172.17.246.22
+              prefix-length: 16
           dhcp: false
     dns-resolver:
       config:
         server:
-          - 192.168.126.1
+          - 1.1.1.1
     routes:
       config:
         - destination: 0.0.0.0/0
-          next-hop-address: 192.168.174.1
+          next-hop-address: 172.16.1.1
           next-hop-interface: eth1
           table-id: 254
         - destination: 0.0.0.0/0
-          next-hop-address: 192.168.77.1
+          next-hop-address: 172.17.1.1
           next-hop-interface: eth1
           table-id: 254
   interfaces:
     - name: "eth0"
-      macAddress: "02:00:00:80:74:77"
+      macAddress: "02:00:00:80:16:f6"
     - name: "eth1"
-      macAddress: "02:00:00:80:77:74"
+      macAddress: "02:00:00:80:f6:16"
