@@ -1,3 +1,5 @@
+import os
+import shutil
 import sys
 import logging
 
@@ -24,15 +26,29 @@ def configure_logger(debug_mode):
     )
 
 
+def delete_files():
+    for filename in os.listdir(OUTPUT_FOLDER):
+        file_path = os.path.join(OUTPUT_FOLDER, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            LOG.error('Failed to delete %s. Reason: %s' % (file_path, e))
+
+
 def main():
+    delete_files()
+
     for i in range(1, CONFIGS_AMOUNT+1):
         c_octet = i
         d_octet = CONFIGS_AMOUNT+1-i
 
-        mac_a = f'0{c_octet}' if c_octet < 10 else c_octet
+        mac_a = f'0{c_octet}' if c_octet < 10 else c_octet  # pad with 0 if needed
         mac_a = str(mac_a)[1:] if len(str(mac_a)) > 2 else mac_a
 
-        mac_b = f'0{d_octet}' if d_octet < 10 else d_octet
+        mac_b = f'0{d_octet}' if d_octet < 10 else d_octet  # pad with 0 if needed
         mac_b = str(mac_b)[1:] if len(str(mac_b)) > 2 else mac_b
 
         output_from_parsed_template = template.render(
