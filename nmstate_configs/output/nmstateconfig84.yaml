@@ -1,7 +1,7 @@
 apiVersion: agent-install.openshift.io/v1beta1
 kind: NMStateConfig
 metadata:
-  name: mynmstateconfig84
+  name: nmstateconfig84
   namespace: spoke-cluster
   labels:
     some-user-defined-label-name: some-user-defined-label-value
@@ -11,21 +11,21 @@ spec:
       - name: eth0
         type: ethernet
         state: up
-        mac-address: 02:00:00:80:7c:5c
+        mac-address: 02:00:de:43:be:df
         ipv4:
           enabled: true
           address:
-            - ip: 172.16.124.92
+            - ip: 172.16.85.174
               prefix-length: 16
           dhcp: false
       - name: eth1
         type: ethernet
         state: up
-        mac-address: 02:00:00:80:5c:7c
+        mac-address: 02:00:3a:4b:31:97
         ipv4:
           enabled: true
           address:
-            - ip: 172.17.92.124
+            - ip: 172.17.174.85
               prefix-length: 16
           dhcp: false
     dns-resolver:
@@ -44,6 +44,6 @@ spec:
           table-id: 254
   interfaces:
     - name: "eth0"
-      macAddress: "02:00:00:80:7c:5c"
+      macAddress: "02:00:3a:4b:31:97"
     - name: "eth1"
-      macAddress: "02:00:00:80:5c:7c"
+      macAddress: "02:00:3a:4b:31:97"
