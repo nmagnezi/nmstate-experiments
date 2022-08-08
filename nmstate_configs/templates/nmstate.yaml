@@ -44,6 +44,6 @@ spec:
           table-id: 254
   interfaces:
     - name: "eth0"
-      macAddress: "{{ mac_b }}"
+      macAddress: "{{ mac_a }}"
     - name: "eth1"
       macAddress: "{{ mac_b }}"
