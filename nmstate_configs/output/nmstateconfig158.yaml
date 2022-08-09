@@ -11,21 +11,21 @@ spec:
       - name: eth0
         type: ethernet
         state: up
-        mac-address: 02:00:57:be:2f:1b
+        mac-address: 02:00:56:6d:14:d7
         ipv4:
           enabled: true
           address:
-            - ip: 172.16.233.250
+            - ip: 172.16.144.211
               prefix-length: 16
           dhcp: false
       - name: eth1
         type: ethernet
         state: up
-        mac-address: 02:00:a6:fa:7a:11
+        mac-address: 02:00:28:c8:7b:4b
         ipv4:
           enabled: true
           address:
-            - ip: 172.17.250.233
+            - ip: 172.17.211.144
               prefix-length: 16
           dhcp: false
     dns-resolver:
@@ -44,6 +44,6 @@ spec:
           table-id: 254
   interfaces:
     - name: "eth0"
-      macAddress: "02:00:a6:fa:7a:11"
+      macAddress: "02:00:56:6d:14:d7"
     - name: "eth1"
-      macAddress: "02:00:a6:fa:7a:11"
+      macAddress: "02:00:28:c8:7b:4b"
